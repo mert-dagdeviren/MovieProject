@@ -29,11 +29,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.composable
 
 
 class MainActivity : ComponentActivity() {
@@ -47,46 +53,35 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
 data class MovieTab(
     val title: String,
-    val icon: Int
+    val icon: Int,
+    val route: String
 )
 
 @Composable
 fun MovieHomeScreen() {
     val tabs = listOf(
-        MovieTab(stringResource(R.string.favorites), R.drawable.ic_favorite),
-        MovieTab(stringResource(R.string.movies), R.drawable.ic_movies),
-        MovieTab(stringResource(R.string.visibility), R.drawable.ic_visibility),
-
-        )
+        MovieTab(stringResource(R.string.favorites), R.drawable.ic_favorite, "favorites"),
+        MovieTab(stringResource(R.string.movies), R.drawable.ic_movies, "movies"),
+        MovieTab(stringResource(R.string.visibility), R.drawable.ic_visibility, "visibility")
+    )
 
     var selectedTab by remember { mutableStateOf(tabs[0]) }
+    val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
             MovieBottomBar(
                 tabs = tabs,
                 selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it }
+                onTabSelected = { selectedTab = it },
+                navController = navController
             )
         }
     ) { innerPadding ->
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                color = Color.Red,
-                text = "Seçili Tab: ${selectedTab.title}",
-                style = MaterialTheme.typography.headlineSmall
-            )
-        }
+        Navigation(navController = navController)
     }
 }
 
@@ -94,7 +89,8 @@ fun MovieHomeScreen() {
 fun MovieBottomBar(
     tabs: List<MovieTab>,
     selectedTab: MovieTab,
-    onTabSelected: (MovieTab) -> Unit
+    onTabSelected: (MovieTab) -> Unit,
+    navController: NavHostController
 ) {
     Row(
         modifier = Modifier
@@ -108,11 +104,57 @@ fun MovieBottomBar(
                 title = tab.title,
                 painter = painterResource(id = tab.icon),
                 isSelected = (tab == selectedTab),
-                onClick = { onTabSelected(tab) }
+                onClick = {
+                    onTabSelected(tab)
+                    navController.navigate(tab.route) {
+                        popUpTo(navController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }
 }
+
+@Composable
+fun FavoritesScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text("Favoriler Ekranı", color = Color.Magenta)
+    }
+}
+
+@Composable
+fun MoviesScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text("Filmler Ekranı", color = Color.Green)
+    }
+}
+
+@Composable
+fun VisibilityScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text("İzlenilenler Ekranı", color = Color.Blue)
+    }
+}
+
+@Composable
+fun Navigation(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = "favorites") {
+        composable("favorites") {
+            FavoritesScreen()
+        }
+        composable("movies") {
+            MoviesScreen()
+        }
+        composable("visibility") {
+            VisibilityScreen()
+        }
+    }
+}
+
 
 @Composable
 fun MovieBottomBarItem(
@@ -141,7 +183,7 @@ fun MovieBottomBarItem(
         Text(
             text = title,
             color = textColor,
-            style = MaterialTheme.typography.bodyMedium // bu kısmıda material theme den alalım
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }
