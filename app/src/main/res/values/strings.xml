@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MovieProject</string>
+    <string name="favorites">Favoriler</string>
+    <string name="visibility">İzlenilenler</string>
+    <string name="movies">Filmler</string>
+
 </resources>

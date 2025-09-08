@@ -32,8 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 
 class MainActivity : ComponentActivity() {
@@ -56,13 +56,12 @@ data class MovieTab(
 
 @Composable
 fun MovieHomeScreen() {
-
     val tabs = listOf(
-        MovieTab("Favoriler", R.drawable.ic_favorite),
-        MovieTab("Filmler", R.drawable.ic_movies),
-        MovieTab("İzlenilenler", R.drawable.ic_visibility),
-        MovieTab("Profile", R.drawable.ic_profile)
-    )
+        MovieTab(stringResource(R.string.favorites), R.drawable.ic_favorite),
+        MovieTab(stringResource(R.string.movies), R.drawable.ic_movies),
+        MovieTab(stringResource(R.string.visibility), R.drawable.ic_visibility),
+
+        )
 
     var selectedTab by remember { mutableStateOf(tabs[0]) }
 
@@ -83,6 +82,7 @@ fun MovieHomeScreen() {
             contentAlignment = Alignment.Center
         ) {
             Text(
+                color = Color.Red,
                 text = "Seçili Tab: ${selectedTab.title}",
                 style = MaterialTheme.typography.headlineSmall
             )
@@ -116,16 +116,15 @@ fun MovieBottomBar(
 
 @Composable
 fun MovieBottomBarItem(
-    modifier: Modifier = Modifier,
     title: String,
     painter: Painter,
     isSelected: Boolean = false,
     onClick: () -> Unit
 ) {
-    val textColor = if (isSelected) (Color(0xFFE59522)) else Color.White
+    val textColor = if (isSelected) (Color(0xFFEC9214)) else Color.White
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .clickable { onClick() }
             .padding(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -142,18 +141,9 @@ fun MovieBottomBarItem(
         Text(
             text = title,
             color = textColor,
-            fontSize = 15.sp
+            style = MaterialTheme.typography.bodyMedium // bu kısmıda material theme den alalım
         )
     }
 }
 
-@Composable
 
-fun MoviesList() {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(15) {
-
-        }
-
-    }
-}
