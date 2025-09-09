@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MaterialTheme {
-                MovieHomeScreen()
+                MovieApp()
             }
         }
     }
@@ -51,11 +51,11 @@ class MainActivity : ComponentActivity() {
 data class MovieTab(
     val title: String,
     val icon: Int,
-    val route: String,
+    val route: String
 )
 
 @Composable
-fun MovieHomeScreen() {
+fun MovieApp() {
     var selectedTab by remember {
         mutableStateOf(
             MovieTab(
