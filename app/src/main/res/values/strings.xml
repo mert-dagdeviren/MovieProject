@@ -3,5 +3,10 @@
     <string name="favorites">Favoriler</string>
     <string name="visibility">İzlenilenler</string>
     <string name="movies">Filmler</string>
-
+    <string name="route_favorites">favorites</string>
+    <string name="route_movies">movies</string>
+    <string name="route_visibility">visibility</string>
+    <string name="favorites_screen">Favoriler Ekranı</string>
+    <string name="movies_screen">Filmler Ekranı</string>
+    <string name="visibility_screen">İzlenilenler Ekranı</string>
 </resources>

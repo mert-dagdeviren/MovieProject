@@ -3,22 +3,15 @@ package com.example.movieproject
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,8 +22,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -40,7 +31,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
-
+import com.example.movieproject.ui.screens.FavoritesScreen
+import com.example.movieproject.ui.screens.MoviesScreen
+import com.example.movieproject.ui.screens.ScreenRoutes
+import com.example.movieproject.ui.screens.VisibilitiesScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,45 +47,63 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 data class MovieTab(
     val title: String,
     val icon: Int,
-    val route: String
+    val route: String,
 )
 
 @Composable
 fun MovieHomeScreen() {
-    val tabs = listOf(
-        MovieTab(stringResource(R.string.favorites), R.drawable.ic_favorite, "favorites"),
-        MovieTab(stringResource(R.string.movies), R.drawable.ic_movies, "movies"),
-        MovieTab(stringResource(R.string.visibility), R.drawable.ic_visibility, "visibility")
-    )
+    var selectedTab by remember {
+        mutableStateOf(
+            MovieTab(
+                title = ScreenRoutes.FavoritesScreen.route,
+                icon = R.drawable.ic_favorite,
+                route = ScreenRoutes.FavoritesScreen.route
+            )
+        )
+    }
 
-    var selectedTab by remember { mutableStateOf(tabs[0]) }
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = {
             MovieBottomBar(
-                tabs = tabs,
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTab = it },
                 navController = navController
             )
         }
     ) { innerPadding ->
-
         Navigation(navController = navController)
     }
 }
 
 @Composable
 fun MovieBottomBar(
-    tabs: List<MovieTab>,
-    selectedTab: MovieTab,
+    selectedTab: MovieTab?,
     onTabSelected: (MovieTab) -> Unit,
     navController: NavHostController
 ) {
+    val tabs = listOf(
+        MovieTab(
+            stringResource(R.string.favorites),
+            R.drawable.ic_favorite,
+            ScreenRoutes.FavoritesScreen.route
+        ),
+        MovieTab(
+            stringResource(R.string.movies),
+            R.drawable.ic_movies,
+            ScreenRoutes.MoviesScreen.route
+        ),
+        MovieTab(
+            stringResource(R.string.visibility),
+            R.drawable.ic_visibility,
+            ScreenRoutes.VisibilitiesScreen.route
+        )
+    )
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,41 +132,22 @@ fun MovieBottomBar(
 }
 
 @Composable
-fun FavoritesScreen() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Favoriler Ekranı", color = Color.Magenta)
-    }
-}
-
-@Composable
-fun MoviesScreen() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Filmler Ekranı", color = Color.Green)
-    }
-}
-
-@Composable
-fun VisibilityScreen() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("İzlenilenler Ekranı", color = Color.Blue)
-    }
-}
-
-@Composable
 fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "favorites") {
-        composable("favorites") {
+    NavHost(
+        navController = navController,
+        startDestination = ScreenRoutes.FavoritesScreen.route
+    ) {
+        composable(ScreenRoutes.FavoritesScreen.route) {
             FavoritesScreen()
         }
-        composable("movies") {
+        composable(ScreenRoutes.MoviesScreen.route) {
             MoviesScreen()
         }
-        composable("visibility") {
-            VisibilityScreen()
+        composable(ScreenRoutes.VisibilitiesScreen.route) {
+            VisibilitiesScreen()
         }
     }
 }
-
 
 @Composable
 fun MovieBottomBarItem(
