@@ -1,5 +1,6 @@
 package com.example.movieproject.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -12,7 +13,10 @@ import com.example.movieproject.R
 
 @Composable
 fun FavoritesScreen() {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.Black),
+        contentAlignment = Alignment.Center) {
         Text(stringResource(R.string.favorites_screen), color = Color.Magenta)
     }
 

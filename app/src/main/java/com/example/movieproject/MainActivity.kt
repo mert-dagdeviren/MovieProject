@@ -54,6 +54,7 @@ data class MovieTab(
     val route: String
 )
 
+
 @Composable
 fun MovieApp() {
     var selectedTab by remember {
