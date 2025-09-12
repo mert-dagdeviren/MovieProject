@@ -8,10 +8,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,7 +36,8 @@ import com.example.movieproject.ui.screens.FavoritesScreen
 import com.example.movieproject.ui.screens.MoviesScreen
 import com.example.movieproject.ui.screens.ScreenRoutes
 import com.example.movieproject.ui.screens.VisibilitiesScreen
-
+import androidx.compose.ui.graphics.Color
+import com.example.movieproject.ui.theme.CustomColorOrange
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +49,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 data class MovieTab(
     val title: String,
     val icon: Int,
     val route: String
 )
-
-
 @Composable
 fun MovieApp() {
     var selectedTab by remember {
@@ -68,7 +67,6 @@ fun MovieApp() {
     }
 
     val navController = rememberNavController()
-
     Scaffold(
         bottomBar = {
             MovieBottomBar(
@@ -78,10 +76,9 @@ fun MovieApp() {
             )
         }
     ) { innerPadding ->
-        Navigation(navController = navController)
+        Navigation(navController = navController, innerPadding = innerPadding)
     }
 }
-
 @Composable
 fun MovieBottomBar(
     selectedTab: MovieTab?,
@@ -108,7 +105,7 @@ fun MovieBottomBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF000000))
+            .background(Color.Black)
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -133,23 +130,22 @@ fun MovieBottomBar(
 }
 
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(navController: NavHostController, innerPadding: PaddingValues) {
     NavHost(
         navController = navController,
         startDestination = ScreenRoutes.FavoritesScreen.route
     ) {
         composable(ScreenRoutes.FavoritesScreen.route) {
-            FavoritesScreen()
+            FavoritesScreen(innerPadding = innerPadding)
         }
         composable(ScreenRoutes.MoviesScreen.route) {
-            MoviesScreen()
+            MoviesScreen(innerPadding = innerPadding)
         }
         composable(ScreenRoutes.VisibilitiesScreen.route) {
-            VisibilitiesScreen()
+            VisibilitiesScreen(innerPadding = innerPadding)
         }
     }
 }
-
 @Composable
 fun MovieBottomBarItem(
     title: String,
@@ -157,23 +153,19 @@ fun MovieBottomBarItem(
     isSelected: Boolean = false,
     onClick: () -> Unit
 ) {
-    val textColor = if (isSelected) (Color(0xFFEC9214)) else Color.White
+    val textColor = if (isSelected) CustomColorOrange.Orange else Color.White
 
     Column(
         modifier = Modifier
             .clickable { onClick() }
             .padding(5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
-
         Image(
             painter = painter,
             contentDescription = title,
-            modifier = Modifier.size(48.dp),
-
-
-            )
+            modifier = Modifier.size(48.dp)
+        )
         Text(
             text = title,
             color = textColor,

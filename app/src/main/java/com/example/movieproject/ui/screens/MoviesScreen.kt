@@ -36,17 +36,10 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.draw.shadow
-
-
-data class Movie(
-    val id: Int,
-    val title: String,
-    val rating: Double,
-    val posterResId: Int,
-)
-
+import com.example.movieproject.Movie.Movie
+import com.example.movieproject.ui.theme.CustomColorGray
 @Composable
-fun MoviesScreen() {
+fun MoviesScreen(innerPadding: PaddingValues = PaddingValues(0.dp)) {
     val movies = listOf(
         Movie(
             id = 1,
@@ -113,14 +106,10 @@ fun MoviesScreen() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color.Black)
+            .padding(innerPadding),
         verticalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(
-            start = 16.dp,
-            end = 16.dp,
-            top = 16.dp,
-            bottom = 90.dp
-        )
+        contentPadding = PaddingValues(15.dp)
     ) {
         items(movies) { movie ->
             MovieItem(movie)
@@ -135,7 +124,7 @@ fun MovieItem(movie: Movie) {
         modifier = Modifier
             .fillMaxWidth()
             .shadow(20.dp, RoundedCornerShape(8.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF4D524A)),
+        colors = CardDefaults.cardColors(CustomColorGray.Gray),
         shape = RoundedCornerShape(12.dp)
     ) {
         Box(
