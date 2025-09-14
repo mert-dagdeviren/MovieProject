@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun MovieApp() {
     var selectedTab by remember {
@@ -76,12 +77,13 @@ fun MovieApp() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(bottom = innerPadding.calculateBottomPadding())
         ) {
             Navigation(navController = navController)
         }
     }
 }
+
 @Composable
 fun MovieBottomBar(
     selectedTab: MovieTab?,
@@ -131,6 +133,7 @@ fun MovieBottomBar(
         }
     }
 }
+
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(
@@ -148,6 +151,7 @@ fun Navigation(navController: NavHostController) {
         }
     }
 }
+
 @Composable
 fun MovieBottomBarItem(
     title: String,
