@@ -15,6 +15,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,77 +30,73 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.movieproject.MovieData.MovieData
 import com.example.movieproject.R
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.ui.draw.shadow
-import com.example.movieproject.Movie.Movie
-import com.example.movieproject.ui.theme.CustomColorGray
+import com.example.movieproject.ui.theme.CustomGray
+
 @Composable
 fun MoviesScreen(innerPadding: PaddingValues = PaddingValues(0.dp)) {
     val movies = listOf(
-        Movie(
+        MovieData(
             id = 1,
             title = stringResource(R.string.movie_ForestGump),
             rating = 6.2,
             posterResId = R.drawable.ic_forest_gump,
         ),
-        Movie(
+        MovieData(
             id = 2,
             title = stringResource(R.string.movie_HarryPotter),
             rating = 8.0,
             posterResId = R.drawable.ic_harry_potter,
         ),
-        Movie(
+        MovieData(
             id = 3,
             title = stringResource(R.string.movie_arog),
             rating = 7.6,
             posterResId = R.drawable.ic_arog,
         ),
-        Movie(
+        MovieData(
             id = 4,
             title = stringResource(R.string.movie_gora),
             rating = 7.4,
             posterResId = R.drawable.ic_gora,
         ),
-        Movie(
+        MovieData(
             id = 5,
             title = stringResource(R.string.movie_toyStory),
             rating = 4.9,
             posterResId = R.drawable.ic_toy_story,
         ),
-        Movie(
+        MovieData(
             id = 6,
             title = stringResource(R.string.movie_martian),
             rating = 9.2,
             posterResId = R.drawable.ic_the_martian,
         ),
-        Movie(
+        MovieData(
             id = 7,
             title = stringResource(R.string.movie_lifeOfPi),
             rating = 8.7,
             posterResId = R.drawable.ic_pi,
         ),
-        Movie(
+        MovieData(
             id = 8,
             title = stringResource(R.string.movie_arifV216),
             rating = 6.4,
             posterResId = R.drawable.ic_arif216,
         ),
-        Movie(
+        MovieData(
             id = 9,
             title = stringResource(R.string.movie_interstellar),
             rating = 8.7,
             posterResId = R.drawable.ic_interstellar,
         ),
-        Movie(
+        MovieData(
             id = 10,
             title = stringResource(R.string.movie_superman),
             rating = 8.2,
@@ -117,14 +118,13 @@ fun MoviesScreen(innerPadding: PaddingValues = PaddingValues(0.dp)) {
         }
     }
 }
-
 @Composable
-fun MovieItem(movie: Movie) {
+fun MovieItem(movie: MovieData) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(20.dp, RoundedCornerShape(8.dp)),
-        colors = CardDefaults.cardColors(CustomColorGray.Gray),
+        colors = CardDefaults.cardColors(CustomGray),
         shape = RoundedCornerShape(12.dp)
     ) {
         Box(
@@ -168,7 +168,6 @@ fun MovieItem(movie: Movie) {
         }
     }
 }
-
 @Composable
 fun FavoriteIcon(modifier: Modifier) {
     var isFavorite by remember { mutableStateOf(false) }

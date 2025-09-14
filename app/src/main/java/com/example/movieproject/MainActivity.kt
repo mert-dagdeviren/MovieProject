@@ -7,13 +7,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,20 +24,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.movieproject.MovieData.MovieTab
 import com.example.movieproject.ui.screens.FavoritesScreen
 import com.example.movieproject.ui.screens.MoviesScreen
 import com.example.movieproject.ui.screens.ScreenRoutes
 import com.example.movieproject.ui.screens.VisibilitiesScreen
-import androidx.compose.ui.graphics.Color
-import com.example.movieproject.ui.theme.CustomColorOrange
+import com.example.movieproject.ui.theme.CustomOrange
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +51,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-data class MovieTab(
-    val title: String,
-    val icon: Int,
-    val route: String
-)
 @Composable
 fun MovieApp() {
     var selectedTab by remember {
@@ -76,7 +73,13 @@ fun MovieApp() {
             )
         }
     ) { innerPadding ->
-        Navigation(navController = navController, innerPadding = innerPadding)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            Navigation(navController = navController)
+        }
     }
 }
 @Composable
@@ -128,21 +131,20 @@ fun MovieBottomBar(
         }
     }
 }
-
 @Composable
-fun Navigation(navController: NavHostController, innerPadding: PaddingValues) {
+fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = ScreenRoutes.FavoritesScreen.route
     ) {
         composable(ScreenRoutes.FavoritesScreen.route) {
-            FavoritesScreen(innerPadding = innerPadding)
+            FavoritesScreen()
         }
         composable(ScreenRoutes.MoviesScreen.route) {
-            MoviesScreen(innerPadding = innerPadding)
+            MoviesScreen()
         }
         composable(ScreenRoutes.VisibilitiesScreen.route) {
-            VisibilitiesScreen(innerPadding = innerPadding)
+            VisibilitiesScreen()
         }
     }
 }
@@ -153,7 +155,7 @@ fun MovieBottomBarItem(
     isSelected: Boolean = false,
     onClick: () -> Unit
 ) {
-    val textColor = if (isSelected) CustomColorOrange.Orange else Color.White
+    val textColor = if (isSelected) CustomOrange else Color.White
 
     Column(
         modifier = Modifier
