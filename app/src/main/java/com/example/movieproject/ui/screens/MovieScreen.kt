@@ -35,95 +35,129 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.movieproject.MovieData.MovieData
+import androidx.navigation.NavController
 import com.example.movieproject.R
+import com.example.movieproject.model.MovieData
 import com.example.movieproject.ui.theme.CustomGray
 
 @Composable
-fun MoviesScreen(innerPadding: PaddingValues = PaddingValues(0.dp)) {
+fun MoviesScreen(navController: NavController) {
     val movies = listOf(
         MovieData(
             id = 1,
-            title = stringResource(R.string.movie_ForestGump),
+            titleResId = R.string.movie_ForestGump,
             rating = 6.2,
             posterResId = R.drawable.ic_forest_gump,
+            year = 1994,
+            genreResId = R.string.genre_forrestGump,
+            actorsResId = R.string.actors_forrestGump
         ),
         MovieData(
             id = 2,
-            title = stringResource(R.string.movie_HarryPotter),
+            titleResId = R.string.movie_HarryPotter,
             rating = 8.0,
             posterResId = R.drawable.ic_harry_potter,
+            year = 2001,
+            genreResId = R.string.genre_harryPotter,
+            actorsResId = R.string.actors_harryPotter
         ),
         MovieData(
             id = 3,
-            title = stringResource(R.string.movie_arog),
+            titleResId = R.string.movie_arog,
             rating = 7.6,
             posterResId = R.drawable.ic_arog,
+            year = 2008,
+            genreResId = R.string.genre_arog,
+            actorsResId = R.string.actors_arog
         ),
         MovieData(
             id = 4,
-            title = stringResource(R.string.movie_gora),
+            titleResId = R.string.movie_gora,
             rating = 7.4,
             posterResId = R.drawable.ic_gora,
+            year = 2004,
+            genreResId = R.string.genre_gora,
+            actorsResId = R.string.actors_gora
         ),
         MovieData(
             id = 5,
-            title = stringResource(R.string.movie_toyStory),
+            titleResId = R.string.movie_toyStory,
             rating = 4.9,
             posterResId = R.drawable.ic_toy_story,
+            year = 1995,
+            genreResId = R.string.genre_toyStory,
+            actorsResId = R.string.actors_toyStory
         ),
         MovieData(
             id = 6,
-            title = stringResource(R.string.movie_martian),
+            titleResId = R.string.movie_martian,
             rating = 9.2,
             posterResId = R.drawable.ic_the_martian,
+            year = 2015,
+            genreResId = R.string.genre_theMartian,
+            actorsResId = R.string.actors_theMartian
         ),
         MovieData(
             id = 7,
-            title = stringResource(R.string.movie_lifeOfPi),
+            titleResId = R.string.movie_lifeOfPi,
             rating = 8.7,
             posterResId = R.drawable.ic_pi,
+            year = 2012,
+            genreResId = R.string.genre_theLifePi,
+            actorsResId = R.string.actors_theLifePi
         ),
         MovieData(
             id = 8,
-            title = stringResource(R.string.movie_arifV216),
+            titleResId = R.string.movie_arifV216,
             rating = 6.4,
             posterResId = R.drawable.ic_arif216,
+            year = 2018,
+            genreResId = R.string.genre_arifV216,
+            actorsResId = R.string.actors_arifV216
         ),
         MovieData(
             id = 9,
-            title = stringResource(R.string.movie_interstellar),
+            titleResId = R.string.movie_interstellar,
             rating = 8.7,
             posterResId = R.drawable.ic_interstellar,
+            year = 2014,
+            genreResId = R.string.genre_interstellar,
+            actorsResId = R.string.actors_interstellar
         ),
         MovieData(
             id = 10,
-            title = stringResource(R.string.movie_superman),
+            titleResId = R.string.movie_superman,
             rating = 8.2,
             posterResId = R.drawable.ic_superman,
+            year = 2025,
+            genreResId = R.string.genre_superman,
+            actorsResId = R.string.actors_superman
         )
     )
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .padding(innerPadding),
+            .background(Color.Black),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(15.dp)
     ) {
         items(movies) { movie ->
-            MovieItem(movie)
+            MovieItem(movie, navController)
 
         }
     }
 }
+
 @Composable
-fun MovieItem(movie: MovieData) {
+fun MovieItem(movie: MovieData, navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(20.dp, RoundedCornerShape(8.dp)),
+            .shadow(20.dp, RoundedCornerShape(8.dp))
+            .clickable{
+                navController.navigate("movieDetail/${movie.id}")
+            },
         colors = CardDefaults.cardColors(CustomGray),
         shape = RoundedCornerShape(12.dp)
     ) {
@@ -138,13 +172,13 @@ fun MovieItem(movie: MovieData) {
             ) {
                 Image(
                     painter = painterResource(id = movie.posterResId),
-                    contentDescription = movie.title,
+                    contentDescription = stringResource(movie.titleResId),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp)
                 )
                 Text(
-                    text = movie.title,
+                    text = stringResource(movie.titleResId),
                     color = Color.White,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
@@ -168,6 +202,7 @@ fun MovieItem(movie: MovieData) {
         }
     }
 }
+
 @Composable
 fun FavoriteIcon(modifier: Modifier) {
     var isFavorite by remember { mutableStateOf(false) }
