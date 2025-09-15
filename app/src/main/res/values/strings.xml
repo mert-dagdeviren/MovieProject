@@ -9,4 +9,19 @@
     <string name="favorites_screen">Favoriler Ekranı</string>
     <string name="movies_screen">Filmler Ekranı</string>
     <string name="visibility_screen">İzlenilenler Ekranı</string>
+    <string name="add_favorites">Favorilere Ekle</string>
+    <string name="movie_gora">Gora</string>
+    <string name="movie_arog">Arog</string>
+    <string name="movie_interstellar">Interstellar</string>
+    <string name="movie_arifV216">Arif V 216</string>
+    <string name="movie_lifeOfPi">Life of Pi</string>
+    <string name="movie_martian">The Martian</string>
+    <string name="movie_superman">Superman</string>
+    <string name="movie_toyStory">Toy Story</string>
+    <string name="movie_HarryPotter">Harry Potter</string>
+    <string name="movie_ForestGump">Forest Gump</string>
+    <string name="star">⭐</string>
+    <string name="addFav">Add to favorites</string>
+    <string name="removeFav">Remove from favorites</string>
+
 </resources>
