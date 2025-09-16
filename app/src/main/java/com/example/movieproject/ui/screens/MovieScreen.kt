@@ -147,7 +147,7 @@ fun MoviesScreen(navController: NavController) {
                 movie = movie,
                 onMovieClick = { clickedMovie ->
                     navController.navigate(
-                        ScreenRoutes.MovieDetailScreen.createRoute(movie.id)
+                        ScreenRoutes.MovieDetailScreen.createRoute(clickedMovie.id)
                     )
                 }
             )
