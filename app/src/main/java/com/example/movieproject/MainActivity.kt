@@ -33,8 +33,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.movieproject.MovieData.MovieTab
+import com.example.movieproject.model.MovieTab
 import com.example.movieproject.ui.screens.FavoritesScreen
+import com.example.movieproject.ui.screens.MovieDetailScreen
 import com.example.movieproject.ui.screens.MoviesScreen
 import com.example.movieproject.ui.screens.ScreenRoutes
 import com.example.movieproject.ui.screens.VisibilitiesScreen
@@ -57,9 +58,9 @@ fun MovieApp() {
     var selectedTab by remember {
         mutableStateOf(
             MovieTab(
-                title = ScreenRoutes.FavoritesScreen.route,
-                icon = R.drawable.ic_favorite,
-                route = ScreenRoutes.FavoritesScreen.route
+                title = ScreenRoutes.MoviesScreen.route,
+                icon = R.drawable.ic_movies,
+                route = ScreenRoutes.MoviesScreen.route
             )
         )
     }
@@ -133,21 +134,26 @@ fun MovieBottomBar(
         }
     }
 }
-
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = ScreenRoutes.FavoritesScreen.route
+        startDestination = ScreenRoutes.MoviesScreen.route
     ) {
         composable(ScreenRoutes.FavoritesScreen.route) {
-            FavoritesScreen()
+            FavoritesScreen(navController)
         }
         composable(ScreenRoutes.MoviesScreen.route) {
-            MoviesScreen()
+            MoviesScreen(navController)
         }
         composable(ScreenRoutes.VisibilitiesScreen.route) {
-            VisibilitiesScreen()
+            VisibilitiesScreen(navController)
+        }
+        composable(
+            route = ScreenRoutes.MovieDetailScreen.route
+        ) { backStackEntry ->
+            val movieId = backStackEntry.arguments?.getString("movieId")?.toInt()
+            MovieDetailScreen(movieId = movieId)
         }
     }
 }

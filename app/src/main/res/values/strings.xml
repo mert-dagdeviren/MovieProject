@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MovieProject</string>
+    <string name="movie_notFound">Movie not found!</string>
     <string name="favorites">Favoriler</string>
     <string name="visibility">İzlenilenler</string>
     <string name="movies">Filmler</string>
@@ -23,5 +24,29 @@
     <string name="star">⭐</string>
     <string name="addFav">Add to favorites</string>
     <string name="removeFav">Remove from favorites</string>
+    <string name="genre_gora">Bilim Kurgu, Komedi</string>
+    <string name="genre_arog">Bilim kurgu, Komedi, Fantastik</string>
+    <string name="genre_interstellar">Bilim kurgu, Dram</string>
+    <string name="genre_toyStory">Animasyon, Macera, Komedi, Aile</string>
+    <string name="genre_harryPotter">Fantastik, Macera</string>
+    <string name="genre_theMartian">Bilim kurgu, Macera, Dram</string>
+    <string name="genre_forrestGump">Dram, Romantik, Komedi</string>
+    <string name="genre_theLifePi">Macera, Dram, Fantastik</string>
+    <string name="genre_superman">Aksiyon, Macera, Fantastik</string>
+    <string name="genre_arifV216">Bilim kurgu, Komedi, Fantastik</string>
+    <string name="actors_arifV216">Cem Yılmaz, Ozan Güven, Seda Bakan, Zafer Algöz</string>
+    <string name="actors_gora">Cem Yılmaz, Ozan Güven, Özkan Uğur, Rasim Öztekin</string>
+    <string name="actors_arog">Cem Yılmaz, Ozan Güven, Özkan Uğur, Zafer Algöz</string>
+    <string name="actors_interstellar">Matthew McConaughey, Anne Hathaway, Jessica Chastain, Michael Caine</string>
+    <string name="actors_theMartian">Matt Damon, Jessica Chastain, Kristen Wiig, Jeff Daniels, Chiwetel Ejiofor</string>
+    <string name="actors_superman">David Corenswet, Rachel Brosnahan, Nicholas Hoult, Nathan Fillion, Edi Gathegi, Isabela Merced</string>
+    <string name="actors_forrestGump">Tom Hanks, Robin Wright, Gary Sinise, Sally Field</string>
+    <string name="actors_harryPotter">Daniel Radcliffe, Rupert Grint, Emma Watson, Alan Rickman, Richard Harris</string>
+    <string name="actors_toyStory">Tom Hanks, Tim Allen, Don Rickles, Wallace Shawn</string>
+    <string name="actors_theLifePi">Suraj Sharma, Irrfan Khan, Rafe Spall, Tabu</string>
+    <string name="year">Yıl:</string>
+    <string name="genre">Tür:</string>
+    <string name="actors">Oyuncular:</string>
+
 
 </resources>
