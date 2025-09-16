@@ -58,8 +58,8 @@ fun MovieApp() {
     var selectedTab by remember {
         mutableStateOf(
             MovieTab(
-                title = ScreenRoutes.FavoritesScreen.route,
-                icon = R.drawable.ic_favorite,
+                title = ScreenRoutes.MoviesScreen.route,
+                icon = R.drawable.ic_movies,
                 route = ScreenRoutes.MoviesScreen.route
             )
         )
@@ -134,7 +134,6 @@ fun MovieBottomBar(
         }
     }
 }
-
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(

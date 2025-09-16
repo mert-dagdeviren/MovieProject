@@ -4,5 +4,9 @@ sealed class ScreenRoutes(val route: String) {
     data object MoviesScreen : ScreenRoutes("Movies Screen")
     data object VisibilitiesScreen : ScreenRoutes("Visibilities Screen")
     data object FavoritesScreen : ScreenRoutes("Favorites Screen")
-    data object MovieDetailScreen : ScreenRoutes("movieDetail/{movieId}")
+    data object MovieDetailScreen : ScreenRoutes("movieDetail/{movieId}") {
+        fun createRoute(movieId: Int): String {
+            return "movieDetail/$movieId"
+        }
+    }
 }

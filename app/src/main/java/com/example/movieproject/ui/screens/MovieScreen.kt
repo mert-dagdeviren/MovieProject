@@ -143,20 +143,25 @@ fun MoviesScreen(navController: NavController) {
         contentPadding = PaddingValues(15.dp)
     ) {
         items(movies) { movie ->
-            MovieItem(movie, navController)
-
+            MovieItem(
+                movie = movie,
+                onMovieClick = { clickedMovie ->
+                    navController.navigate(
+                        ScreenRoutes.MovieDetailScreen.createRoute(movie.id)
+                    )
+                }
+            )
         }
     }
 }
-
 @Composable
-fun MovieItem(movie: MovieData, navController: NavController) {
+fun MovieItem(movie: MovieData, onMovieClick: (MovieData) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .shadow(20.dp, RoundedCornerShape(8.dp))
-            .clickable{
-                navController.navigate("movieDetail/${movie.id}")
+            .clickable {
+                onMovieClick(movie)
             },
         colors = CardDefaults.cardColors(CustomGray),
         shape = RoundedCornerShape(12.dp)
@@ -202,7 +207,6 @@ fun MovieItem(movie: MovieData, navController: NavController) {
         }
     }
 }
-
 @Composable
 fun FavoriteIcon(modifier: Modifier) {
     var isFavorite by remember { mutableStateOf(false) }
