@@ -1,6 +1,3 @@
-package com.example.movieproject.ui.screens
-
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,40 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.movieproject.R
+import coil.compose.AsyncImage
+import com.example.movieproject.model.MovieData
 import com.example.movieproject.ui.theme.CustomGray
-import com.example.movieproject.ui.viewmodel.MovieDetailViewModel
+
 
 @Composable
-fun MovieDetailScreen(
-    movieId: Int?,
-    viewModel: MovieDetailViewModel = viewModel()
-) {
-    if (movieId == null) {
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stringResource(R.string.movie_notFound),
-                color = Color.White,
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
-
-
-        return
-    }
-
-
-    viewModel.setMovieId(movieId)
-    val movie = viewModel.movie
-
+fun MovieDetailScreen(movie: MovieData) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -65,59 +36,51 @@ fun MovieDetailScreen(
                 .background(Color.Black),
             contentAlignment = Alignment.Center
         ) {
-            if (movie != null) {
-                Column(
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(70.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                AsyncImage(
+                    model = movie.posterUrl,
+                    contentDescription = movie.title,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = painterResource(id = movie.posterResId),
-                        contentDescription = stringResource(movie.titleResId),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(300.dp)
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = stringResource(movie.titleResId),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.star) + " " + movie.rating,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.year) + " " + movie.year,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.genre) + " " + stringResource(movie.genreResId),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.actors) + " " + stringResource(movie.actorsResId),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.White
-                    )
-                }
-            } else {
+                        .height(500.dp)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
-                    text = stringResource(R.string.movie_notFound),
-                    color = Color.White,
-                    style = MaterialTheme.typography.titleLarge
+                    text = movie.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = Color.Gray,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+
+                Text(
+                    text = "⭐ ${movie.rating}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+
+                Text(
+                    text = "Year: ${movie.year}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+
+                Text(
+                    text = "Genre: ${movie.genre}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(top = 4.dp)
                 )
             }
         }
     }
-
 }

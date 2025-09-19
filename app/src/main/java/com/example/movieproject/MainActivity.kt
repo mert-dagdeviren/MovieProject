@@ -1,5 +1,6 @@
 package com.example.movieproject
 
+import MovieDetailScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,13 +34,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.movieproject.model.MovieRepository
 import com.example.movieproject.model.MovieTab
 import com.example.movieproject.ui.screens.FavoritesScreen
-import com.example.movieproject.ui.screens.MovieDetailScreen
 import com.example.movieproject.ui.screens.MoviesScreen
 import com.example.movieproject.ui.screens.ScreenRoutes
 import com.example.movieproject.ui.screens.VisibilitiesScreen
 import com.example.movieproject.ui.theme.CustomOrange
+import com.example.movieproject.ui.viewmodel.RetrofitInstance
+import kotlinx.coroutines.runBlocking
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,6 +137,7 @@ fun MovieBottomBar(
         }
     }
 }
+
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(
@@ -152,8 +156,14 @@ fun Navigation(navController: NavHostController) {
         composable(
             route = ScreenRoutes.MovieDetailScreen.route
         ) { backStackEntry ->
-            val movieId = backStackEntry.arguments?.getString("movieId")?.toInt()
-            MovieDetailScreen(movieId = movieId)
+            val movieId = backStackEntry.arguments?.getString("movieId")?.toIntOrNull()
+            val repository = MovieRepository(RetrofitInstance.api)
+            val movies = runBlocking { repository.getMovies() }
+
+            val movie = movies.firstOrNull { it.id == movieId }
+            movie?.let {
+                MovieDetailScreen(movie = it)
+            }
         }
     }
 }
