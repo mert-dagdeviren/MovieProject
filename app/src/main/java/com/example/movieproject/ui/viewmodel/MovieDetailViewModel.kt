@@ -27,9 +27,7 @@ class MovieDetailViewModel : ViewModel() {
             _error = null
 
             try {
-                val allMovies = repository.getMovies()
-                _movie = allMovies.firstOrNull { it.id == movieId }
-
+                _movie = repository.getMovieById(movieId)
                 if (_movie == null) {
                     _error = "Film bulunamadı (ID: $movieId)"
                 }
@@ -53,6 +51,4 @@ class MovieDetailViewModel : ViewModel() {
             }
         }
     }
-
-
 }
