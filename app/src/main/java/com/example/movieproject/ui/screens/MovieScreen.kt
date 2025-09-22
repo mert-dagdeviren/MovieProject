@@ -24,7 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,6 +38,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.movieproject.model.MovieData
+import com.example.movieproject.navigation.ScreenRoutes
 import com.example.movieproject.ui.theme.CustomGray
 import com.example.movieproject.ui.viewmodel.MovieViewModel
 
@@ -46,11 +46,6 @@ import com.example.movieproject.ui.viewmodel.MovieViewModel
 fun MoviesScreen(navController: NavController) {
     val viewModel: MovieViewModel = viewModel()
     val movies by viewModel.movies.collectAsState()
-
-
-    LaunchedEffect(Unit) {
-        viewModel.loadMovies()
-    }
 
     LazyColumn(
         modifier = Modifier

@@ -1,85 +1,57 @@
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.example.movieproject.model.MovieData
-import com.example.movieproject.ui.theme.CustomGray
-
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.movieproject.R
+import com.example.movieproject.ui.screens.ErrorScreen
+import com.example.movieproject.ui.screens.LoadingScreen
+import com.example.movieproject.ui.screens.MovieDetailContent
+import com.example.movieproject.ui.viewmodel.MovieDetailViewModel
 
 @Composable
-fun MovieDetailScreen(movie: MovieData) {
-    Card(
+fun MovieDetailScreen(
+    movieId: Int?,
+    viewModel: MovieDetailViewModel = viewModel()
+) {
+
+    if (movieId == null) {
+        ErrorScreen(stringResource(R.string.invalid_movie))
+        return
+    }
+
+    LaunchedEffect(movieId) {
+        viewModel.loadMovieDetail(movieId)
+    }
+
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(CustomGray)
-            .shadow(elevation = 100.dp, RoundedCornerShape(100.dp))
-
+            .fillMaxSize()
+            .background(Color.Black),
+        contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(70.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+        when {
+            viewModel.isLoading -> {
+                LoadingScreen()
+            }
 
-                AsyncImage(
-                    model = movie.posterUrl,
-                    contentDescription = movie.title,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(500.dp)
+            viewModel.error != null -> {
+                ErrorScreen(
+                    error = viewModel.error!!,
+                    onRetry = { viewModel.loadMovieDetail(movieId) }
                 )
+            }
+            viewModel.movie != null -> {
+                MovieDetailContent(movie = viewModel.movie!!)
+            }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = movie.title,
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = Color.Gray,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-
-                Text(
-                    text = "⭐ ${movie.rating}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-
-                Text(
-                    text = "Year: ${movie.year}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-
-                Text(
-                    text = "Genre: ${movie.genre}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Gray,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
+            else -> {
+                ErrorScreen(stringResource(R.string.not_found))
             }
         }
     }

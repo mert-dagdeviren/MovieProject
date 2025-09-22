@@ -1,8 +1,5 @@
 package com.example.movieproject.model
 
-import com.example.movieproject.service.MovieAPI
-import com.example.movieproject.ui.viewmodel.RetrofitInstance
-
 data class MovieData(
     val id: Int,
     val title: String,
@@ -26,19 +23,3 @@ data class MovieResponse(
 data class Rating(val average: Double?)
 data class Image(val medium: String?, val original: String?)
 
-class MovieRepository(api: MovieAPI) {
-    suspend fun getMovies(): List<MovieData> {
-        val shows = RetrofitInstance.api.getShows()
-        return shows.map { movie ->
-            MovieData(
-                id = movie.id,
-                title = movie.name,
-                rating = (movie.rating?.average ?: 0.0),
-                posterUrl = movie.image?.original ?: "",
-                year = movie.premiered?.take(4)?.toIntOrNull() ?: 0,
-                genre = movie.genres.joinToString(", "),
-
-                )
-        }
-    }
-}

@@ -1,4 +1,4 @@
-package com.example.movieproject.ui.screens
+package com.example.movieproject.navigation
 
 sealed class ScreenRoutes(val route: String) {
     data object MoviesScreen : ScreenRoutes("Movies Screen")
