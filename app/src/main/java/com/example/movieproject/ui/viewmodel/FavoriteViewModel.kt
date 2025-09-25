@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MovieViewModel() : ViewModel() {
+class FavoriteViewModel() : ViewModel() {
     private val repository = MovieRepository(RetrofitInstance.api)
     private val dataStoreManager = DataStoreManager.getInstance()
 
@@ -27,6 +27,7 @@ class MovieViewModel() : ViewModel() {
         loadMovies()
         loadFavorites()
     }
+
     private fun loadMovies() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -34,7 +35,7 @@ class MovieViewModel() : ViewModel() {
             try {
                 _movies.value = repository.getMovies()
             } catch (e: Exception) {
-                _error.value = "Filmler yüklenirken hata oluştu: ${e.message}"
+                _error.value =  "Filmler yüklenirken hata oluştu: ${e.message}"
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
@@ -71,7 +72,4 @@ class MovieViewModel() : ViewModel() {
         }
     }
 
-    fun clearError() {
-        _error.value = null
-    }
 }

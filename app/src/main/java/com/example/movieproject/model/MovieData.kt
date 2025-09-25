@@ -20,6 +20,12 @@ data class MovieResponse(
     val image: Image?
 )
 
+data class MovieTab(
+    val title: String,
+    val icon: Int,
+    val route: String
+)
+
 data class Rating(val average: Double?)
 data class Image(val medium: String?, val original: String?)
 

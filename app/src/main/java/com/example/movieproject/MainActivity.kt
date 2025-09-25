@@ -1,4 +1,3 @@
-
 package com.example.movieproject
 
 import android.os.Bundle
@@ -15,15 +14,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
 import com.example.movieproject.model.MovieTab
 import com.example.movieproject.navigation.Navigation
 import com.example.movieproject.navigation.ScreenRoutes
 import com.example.movieproject.ui.screens.MovieBottomBar
+import com.example.movieproject.ui.viewmodel.DataStoreManager
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        DataStoreManager.getInstance().init(this)
 
         setContent {
             MaterialTheme {
@@ -34,6 +37,9 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun MovieApp() {
+
+    val context = LocalContext.current
+
     var selectedTab by remember {
         mutableStateOf(
             MovieTab(
@@ -63,9 +69,3 @@ fun MovieApp() {
         }
     }
 }
-
-
-
-
-
-
