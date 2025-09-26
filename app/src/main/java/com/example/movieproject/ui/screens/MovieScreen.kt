@@ -118,7 +118,7 @@ fun MoviesScreen(navController: NavController) {
                             },
                             onFavoriteClick = { clickedMovie ->
                                 viewModel.toggleFavorite(clickedMovie)
-                            }
+                            },
                         )
                     }
                 }
@@ -131,7 +131,7 @@ fun MovieItem(
     movie: MovieData,
     isFavorite: Boolean,
     onMovieClick: (MovieData) -> Unit,
-    onFavoriteClick: (MovieData) -> Unit
+    onFavoriteClick: (MovieData) -> Unit,
 ) {
     var localFavorite by remember { mutableStateOf(isFavorite) }
     Card(
@@ -143,7 +143,9 @@ fun MovieItem(
             )
             .fillMaxWidth()
             .shadow(20.dp, RoundedCornerShape(8.dp))
-            .clickable { onMovieClick(movie) },
+            .clickable {
+                onMovieClick(movie)
+            },
         colors = CardDefaults.cardColors(Color.Black),
         shape = RoundedCornerShape(50.dp)
     ) {

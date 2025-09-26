@@ -110,7 +110,7 @@ fun FavoritesScreen(navController: NavController) {
                             },
                             onFavoriteClick = { clickedMovie ->
                                 viewModel.toggleFavorite(clickedMovie)
-                            }
+                            },
                         )
                     }
                 }

@@ -24,6 +24,8 @@
     <string name="createFav">Film listesinden kalp ikonuna tıklayarak favorilerinizi oluşturun</string>
     <string name="discoverMovies">Filmleri Keşfet</string>
     <string name="clearFav">Tüm Favorileri Temizle</string>
+    <string name="no_visibilities">Henüz Görüntülenen Filminiz Bulunmamaktadır.</string>
+    <string name="clearVis">Tüm Görüntülenenleri Temizle</string>
 
 
 </resources>

@@ -61,16 +61,6 @@ class MovieViewModel() : ViewModel() {
         }
     }
 
-    fun clearAllFavorites() {
-        viewModelScope.launch {
-            try {
-                dataStoreManager.clearAllFavorites()
-            } catch (e: Exception) {
-                _error.value = "Favoriler temizlenirken hata oluştu: ${e.message}"
-            }
-        }
-    }
-
     fun clearError() {
         _error.value = null
     }

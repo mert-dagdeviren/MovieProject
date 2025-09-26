@@ -40,7 +40,82 @@ class DataStoreManager() {
     private val gson = Gson()
     private val FAVORITES_KEY = stringSetPreferencesKey("favorite_movies")
 
+    private val VISIBILITY_KEY = stringSetPreferencesKey("visibility_movies")
 
+
+    fun getVisibilities(): Flow<List<MovieData>> = context.dataStore.data.map { preferences ->
+        val visibilityJsonSet = preferences[VISIBILITY_KEY] ?: emptySet()
+        visibilityJsonSet.mapNotNull { jsonString ->
+            try {
+                gson.fromJson(jsonString, MovieData::class.java)
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
+    suspend fun isVisibility(movieId: Int): Boolean {
+        return try {
+            val preferences = context.dataStore.data.first()
+            val visibilityJsonSet = preferences[VISIBILITY_KEY] ?: emptySet()
+            visibilityJsonSet.any { jsonString ->
+                try {
+                    val movie = gson.fromJson(jsonString, MovieData::class.java)
+                    movie.id == movieId
+                } catch (e: Exception) {
+                    false
+                }
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
+    suspend fun addToVisibility(movie: MovieData) {
+        context.dataStore.edit { preferences ->
+            val currentVisibilities = preferences[VISIBILITY_KEY]?.toMutableSet() ?: mutableSetOf()
+            val movieJson = gson.toJson(movie)
+
+
+            currentVisibilities.removeAll { jsonString ->
+                try {
+                    val existingMovie = gson.fromJson(jsonString, MovieData::class.java)
+                    existingMovie.id == movie.id
+                } catch (e: Exception) {
+                    false
+                }
+            }
+            currentVisibilities.add(movieJson)
+            preferences[VISIBILITY_KEY] = currentVisibilities
+        }
+    }
+    suspend fun removeFromVisibilities(movieId: Int) {
+        context.dataStore.edit { preferences ->
+            val currentVisibilities = preferences[VISIBILITY_KEY]?.toMutableSet() ?: mutableSetOf()
+
+            currentVisibilities.removeAll { jsonString ->
+                try {
+                    val movie = gson.fromJson(jsonString, MovieData::class.java)
+                    movie.id == movieId
+                } catch (e: Exception) {
+                    false
+                }
+            }
+
+            preferences[VISIBILITY_KEY] = currentVisibilities
+        }
+    }
+    suspend fun toggleVisibility(movie: MovieData) {
+        if (isVisibility(movie.id)) {
+            removeFromVisibilities(movie.id)
+        } else {
+            addToVisibility(movie)
+        }
+    }
+
+    suspend fun clearAllVisibilities() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(VISIBILITY_KEY)
+        }
+    }
     fun getFavorites(): Flow<List<MovieData>> = context.dataStore.data.map { preferences ->
         val favoriteJsonSet = preferences[FAVORITES_KEY] ?: emptySet()
         favoriteJsonSet.mapNotNull { jsonString ->

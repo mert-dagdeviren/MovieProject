@@ -28,6 +28,7 @@ class MovieDetailViewModel : ViewModel() {
 
             try {
                 _movie = repository.getMovieById(movieId)
+                _movie?.let { DataStoreManager.getInstance().addToVisibility(it) }
                 if (_movie == null) {
                     _error = "Film bulunamadı (ID: $movieId)"
                 }
