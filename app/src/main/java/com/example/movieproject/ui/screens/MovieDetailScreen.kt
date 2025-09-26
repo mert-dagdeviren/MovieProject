@@ -3,6 +3,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -13,12 +15,13 @@ import com.example.movieproject.ui.screens.ErrorScreen
 import com.example.movieproject.ui.screens.LoadingScreen
 import com.example.movieproject.ui.screens.MovieDetailContent
 import com.example.movieproject.ui.viewmodel.MovieDetailViewModel
+import com.example.movieproject.ui.viewmodel.MovieViewModel
 
 @Composable
-fun MovieDetailScreen(
-    movieId: Int?,
-    viewModel: MovieDetailViewModel = viewModel()
-) {
+fun MovieDetailScreen(movieId: Int?) {
+
+    val viewModel: MovieDetailViewModel = viewModel()
+    val movieViewModel: MovieViewModel = viewModel()
 
     if (movieId == null) {
         ErrorScreen(stringResource(R.string.invalid_movie))
@@ -28,6 +31,8 @@ fun MovieDetailScreen(
     LaunchedEffect(movieId) {
         viewModel.loadMovieDetail(movieId)
     }
+
+    val favorites by movieViewModel.favorites.collectAsState()
 
     Box(
         modifier = Modifier
@@ -46,8 +51,16 @@ fun MovieDetailScreen(
                     onRetry = { viewModel.loadMovieDetail(movieId) }
                 )
             }
+
             viewModel.movie != null -> {
-                MovieDetailContent(movie = viewModel.movie!!)
+                val movie = viewModel.movie!!
+                val isFavorite = favorites.any { it.id == movie.id }
+
+                MovieDetailContent(
+                    movie = movie,
+                    isFavorite = isFavorite,
+                    onFavoriteClick = { movieViewModel.toggleFavorite(movie) }
+                )
             }
 
             else -> {

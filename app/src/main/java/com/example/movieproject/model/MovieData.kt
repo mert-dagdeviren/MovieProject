@@ -10,16 +10,3 @@ data class MovieData(
     // val actors: String (actors yok şimdilik)
 )
 
-data class MovieResponse(
-    val id: Int,
-    val name: String,
-    val language: String?,
-    val genres: List<String>,
-    val premiered: String?,
-    val rating: Rating?,
-    val image: Image?
-)
-
-data class Rating(val average: Double?)
-data class Image(val medium: String?, val original: String?)
-

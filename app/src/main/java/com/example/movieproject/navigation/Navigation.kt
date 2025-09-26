@@ -27,7 +27,6 @@ fun Navigation(navController: NavHostController) {
             VisibilitiesScreen(navController)
         }
 
-
         composable(
             route = ScreenRoutes.MovieDetailScreen.route
         ) { backStackEntry ->
@@ -36,7 +35,6 @@ fun Navigation(navController: NavHostController) {
             if (movieId != null) {
                 MovieDetailScreen(movieId = movieId)
             }
-
         }
     }
 }
