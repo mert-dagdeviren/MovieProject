@@ -44,7 +44,6 @@ import coil.compose.AsyncImage
 import com.example.movieproject.R
 import com.example.movieproject.model.MovieData
 import com.example.movieproject.navigation.ScreenRoutes
-import com.example.movieproject.ui.theme.CustomGray
 import com.example.movieproject.ui.theme.CustomOrange
 import com.example.movieproject.ui.viewmodel.MovieViewModel
 
@@ -145,7 +144,7 @@ fun MovieItem(
             .fillMaxWidth()
             .shadow(20.dp, RoundedCornerShape(8.dp))
             .clickable { onMovieClick(movie) },
-        colors = CardDefaults.cardColors(CustomGray),
+        colors = CardDefaults.cardColors(Color.Black),
         shape = RoundedCornerShape(50.dp)
     ) {
         Column(

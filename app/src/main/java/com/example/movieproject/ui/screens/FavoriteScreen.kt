@@ -33,11 +33,9 @@ import com.example.movieproject.ui.theme.CustomOrange
 import com.example.movieproject.ui.viewmodel.FavoriteViewModel
 
 @Composable
-fun FavoritesScreen(
-    navController: NavController
-) {
-    val viewModel: FavoriteViewModel = viewModel()
+fun FavoritesScreen(navController: NavController) {
 
+    val viewModel: FavoriteViewModel = viewModel()
     val favorites by viewModel.favorites.collectAsState()
 
     Box(
